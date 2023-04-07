@@ -1,5 +1,6 @@
 package com.example.Colorful_World.Dto;
 
+import com.example.Colorful_World.entity.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,5 +16,16 @@ public class UserDto {
         this.email = email;
         this.password = password;
         this.index = index;
+    }
+
+    public UserEntity toEntity(){
+
+        UserEntity userEntity = new UserEntity().builder()
+                .email(email)
+                .password(password)
+                .index(index)
+                .build();
+
+        return userEntity;
     }
 }
