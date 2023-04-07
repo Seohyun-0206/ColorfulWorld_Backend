@@ -20,13 +20,13 @@ public class UserEntity {
 
     private String password;
 
-    private int index;
+    private int intensity;
 
     @Builder
-    public UserEntity(String email, String password, int index){
+    public UserEntity(String email, String password, int intensity){
         this.email = email;
         this.password = password;
-        this.index = index;
+        this.intensity = intensity;
     }
 
 }

@@ -10,12 +10,12 @@ public class UserDto {
     private Long id;
     private String email;
     private String password;
-    private int index;
+    private int intensity;
 
-    public UserDto(String email, String password, int index){
+    public UserDto(String email, String password, int intensity){
         this.email = email;
         this.password = password;
-        this.index = index;
+        this.intensity = intensity;
     }
 
     public UserEntity toEntity(){
@@ -23,7 +23,7 @@ public class UserDto {
         UserEntity userEntity = new UserEntity().builder()
                 .email(email)
                 .password(password)
-                .index(index)
+                .intensity(intensity)
                 .build();
 
         return userEntity;

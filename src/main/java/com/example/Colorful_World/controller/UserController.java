@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Map;
 
@@ -18,11 +19,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
+    @ResponseBody
     public ResponseEntity<String> register(@RequestBody Map<String, String> param){
 
         UserDto userDto = new UserDto(param.get("email"),
                 param.get("password"),
-                Integer.parseInt(param.get("index")));
+                Integer.parseInt(param.get("intensity")));
 
 
         userService.register(userDto);
