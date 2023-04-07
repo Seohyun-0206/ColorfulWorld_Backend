@@ -1,4 +1,4 @@
-package com.example.Colorful_World.Dto;
+package com.example.Colorful_World.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

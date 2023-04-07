@@ -1,6 +1,6 @@
 package com.example.Colorful_World.exception;
 
-import com.example.Colorful_World.Dto.ResponseDto;
+import com.example.Colorful_World.dto.ResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

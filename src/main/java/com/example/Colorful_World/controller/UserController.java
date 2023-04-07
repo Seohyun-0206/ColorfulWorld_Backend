@@ -1,7 +1,7 @@
 package com.example.Colorful_World.controller;
 
 
-import com.example.Colorful_World.Dto.UserDto;
+import com.example.Colorful_World.dto.UserDto;
 import com.example.Colorful_World.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

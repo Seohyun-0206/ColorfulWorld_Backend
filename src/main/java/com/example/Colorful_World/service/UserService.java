@@ -1,7 +1,7 @@
 package com.example.Colorful_World.service;
 
 
-import com.example.Colorful_World.Dto.UserDto;
+import com.example.Colorful_World.dto.UserDto;
 import com.example.Colorful_World.exception.BaseException;
 import com.example.Colorful_World.exception.ErrorCode;
 import com.example.Colorful_World.repository.UserRepository;
