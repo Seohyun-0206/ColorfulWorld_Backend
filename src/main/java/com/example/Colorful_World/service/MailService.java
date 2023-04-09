@@ -1,7 +1,11 @@
 package com.example.Colorful_World.service;
 
+import com.example.Colorful_World.exception.BaseException;
+import com.example.Colorful_World.exception.ErrorCode;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -11,6 +15,26 @@ import java.util.Random;
 public class MailService {
 
     private final JavaMailSender javaMailSender;
+
+    public String sendMail(String email){
+
+        String code = createCode();
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+        try{
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+            mimeMessageHelper.setTo(email);
+            mimeMessageHelper.setSubject("Colorful World 회원가입 이메일 인증");
+
+            javaMailSender.send(mimeMessage);
+
+            return code;
+
+        }catch(Exception e){
+            throw new BaseException(ErrorCode.MAIL_NOT_SENT);
+        }
+    }
 
 
     public String createCode(){

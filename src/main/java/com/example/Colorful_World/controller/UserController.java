@@ -2,6 +2,7 @@ package com.example.Colorful_World.controller;
 
 
 import com.example.Colorful_World.dto.UserDto;
+import com.example.Colorful_World.service.MailService;
 import com.example.Colorful_World.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
@@ -42,7 +44,7 @@ public class UserController {
 
         String email = param.get("email");
 
-        String code = userService.checkEmail(email);
+        String code = mailService.sendMail(email);
 
         return new ResponseEntity<>(code, HttpStatus.OK);
     }
