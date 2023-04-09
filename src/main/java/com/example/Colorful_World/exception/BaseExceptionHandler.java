@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class BaseExceptionHandler {
 
     @ExceptionHandler(value={BaseException.class})
-    public ResponseEntity<Object> handleBaseExcption(BaseException e){
+    public ResponseEntity<Object> handleBaseException(BaseException e){
         ResponseDto responseDto  = new ResponseDto(e.getErrorCode().getHttpStatus().value(), e.getErrorCode().getCode(), e.getErrorCode().getDetail());
         return new ResponseEntity<>(responseDto, e.getErrorCode().getHttpStatus());
     }
