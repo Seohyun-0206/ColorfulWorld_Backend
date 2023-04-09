@@ -29,4 +29,9 @@ public class UserService {
 
     }
 
+    public String checkEmail(String email){
+
+        return "";
+    }
+
 }
