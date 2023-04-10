@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.util.Random;
 
@@ -17,7 +19,8 @@ import java.util.Random;
 public class MailService {
 
     private final JavaMailSender javaMailSender;
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final SpringTemplateEngine templateEngine;
 
     public String sendMail(String email){
 
@@ -39,6 +42,9 @@ public class MailService {
             Context context = new Context();
             context.setVariable("email", email);
             context.setVariable("code", code);
+
+            String html = templateEngine.process("email", context);
+            mimeMessageHelper.setText(html, true);
 
             javaMailSender.send(mimeMessage);
 
