@@ -5,6 +5,7 @@ import com.example.Colorful_World.exception.ErrorCode;
 import com.example.Colorful_World.repository.UserRepository;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class MailService {
     private final JavaMailSender javaMailSender;
     private final UserRepository userRepository;
     private final SpringTemplateEngine templateEngine;
+    private final MailProperties mailProperties;
 
     public String sendMail(String email){
 
@@ -36,6 +38,7 @@ public class MailService {
 
         try{
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+            mimeMessageHelper.setFrom(mailProperties.getUsername());
             mimeMessageHelper.setTo(email);
             mimeMessageHelper.setSubject("[Colorful World] 회원가입을 위한 이메일 인증");
 
