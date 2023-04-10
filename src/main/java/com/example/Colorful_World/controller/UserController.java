@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -24,7 +21,7 @@ public class UserController {
     private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
 
-    @PostMapping("/register")
+    @PostMapping("/join")
     @ResponseBody
     public ResponseEntity<String> register(@RequestBody Map<String, String> param){
 
@@ -40,9 +37,10 @@ public class UserController {
 
     @GetMapping("/checkEmail")
     @ResponseBody
-    public ResponseEntity<Object> checkEmail(@RequestBody Map<String, String> param){
+    public ResponseEntity<Object> checkEmail(@RequestParam String email){
 
-        String email = param.get("email");
+        //String email = param.get("email");
+        System.out.println(email);
 
         String code = mailService.sendMail(email);
         System.out.println("인증코드: " + code);
