@@ -23,11 +23,11 @@ public class MailService {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         try{
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
-            mimeMessageHelper.setTo(email);
-            mimeMessageHelper.setSubject("Colorful World 회원가입 이메일 인증");
-
-            javaMailSender.send(mimeMessage);
+//            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+//            mimeMessageHelper.setTo(email);
+//            mimeMessageHelper.setSubject("Colorful World 회원가입 이메일 인증");
+//
+//            javaMailSender.send(mimeMessage);
 
             return code;
 

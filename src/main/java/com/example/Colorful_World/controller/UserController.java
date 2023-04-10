@@ -45,6 +45,7 @@ public class UserController {
         String email = param.get("email");
 
         String code = mailService.sendMail(email);
+        System.out.println("인증코드: " + code);
 
         return new ResponseEntity<>(code, HttpStatus.OK);
     }
