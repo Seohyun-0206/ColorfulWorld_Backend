@@ -1,6 +1,7 @@
 package com.example.Colorful_World.token;
 
 import com.example.Colorful_World.dto.TokenDto;
+import com.example.Colorful_World.service.CustomUserDetailService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -9,6 +10,8 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -29,6 +32,8 @@ public class JwtTokenProvider {
     private Long refreshTime = 5 * 60 * 1000L;
 
     private Key key;
+
+    private CustomUserDetailService customUserDetailService;
 
 
     //secretKey encoding
@@ -72,6 +77,16 @@ public class JwtTokenProvider {
         header.put("alg", "HS256");
 
         return header;
+    }
+
+    public Authentication getAuthentication(String token){
+        CustomUserDetails customUserDetails = customUserDetailService.loadUserByUsername(this.getEmail(token));
+
+        return new UsernamePasswordAuthenticationToken(customUserDetails, "", customUserDetails.getAuthorities());
+    }
+
+    public String getEmail(String token){
+        return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().getSubject();
     }
 
 
