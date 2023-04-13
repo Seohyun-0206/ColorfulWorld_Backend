@@ -35,6 +35,7 @@ public class UserController {
         return ResponseEntity.ok("회원가입에 성공하였습니다.");
     }
 
+
     @GetMapping("/checkEmail")
     @ResponseBody
     public ResponseEntity<Object> checkEmail(@RequestParam String email){
