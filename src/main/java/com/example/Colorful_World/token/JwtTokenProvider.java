@@ -3,11 +3,13 @@ package com.example.Colorful_World.token;
 import com.example.Colorful_World.dto.TokenDto;
 import com.example.Colorful_World.service.CustomUserDetailService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -89,6 +91,20 @@ public class JwtTokenProvider {
         return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().getSubject();
     }
 
+    //토큰 유효한지 확인
+    public Boolean validateToken(String token){
+        try{
+            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
+            return !claims.getBody().getExpiration().before(new Date());
+        }catch(Exception e){
+            return false;
+        }
+    }
 
+    //헤더에서 토큰 뽑기
+    public String resolveToken(HttpServletRequest request, String type){
+
+        return request.getHeader(type);
+    }
 
 }
