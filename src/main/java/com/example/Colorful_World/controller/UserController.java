@@ -5,6 +5,7 @@ import com.example.Colorful_World.dto.LoginDto;
 import com.example.Colorful_World.dto.UserDto;
 import com.example.Colorful_World.service.MailService;
 import com.example.Colorful_World.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ public class UserController {
     private final UserService userService;
     private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
+    private final HttpServletResponse response;
 
     @PostMapping("/join")
     @ResponseBody
@@ -57,7 +59,7 @@ public class UserController {
         LoginDto loginDto = new LoginDto(param.get("email"),
                 param.get("password"));
 
-        userService.login(loginDto);
+        userService.login(loginDto, response);
 
         return new ResponseEntity<>("로그인에 성공하였습니다.", HttpStatus.OK);
     }

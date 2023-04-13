@@ -1,5 +1,6 @@
 package com.example.Colorful_World.token;
 
+import com.example.Colorful_World.dto.TokenDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -37,6 +38,9 @@ public class JwtTokenProvider {
         key = Keys.hmacShaKeyFor(keyBytes);
     }
 
+    public TokenDto createAllToken(String email){
+        return new TokenDto(createToken(email, "access"), createToken(email, "refresh"), refreshTime);
+    }
 
     //토큰 생성
     public String createToken(String email, String type){
@@ -69,5 +73,7 @@ public class JwtTokenProvider {
 
         return header;
     }
+
+
 
 }
