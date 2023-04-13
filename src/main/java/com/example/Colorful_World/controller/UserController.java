@@ -1,6 +1,7 @@
 package com.example.Colorful_World.controller;
 
 
+import com.example.Colorful_World.dto.LoginDto;
 import com.example.Colorful_World.dto.UserDto;
 import com.example.Colorful_World.service.MailService;
 import com.example.Colorful_World.service.UserService;
@@ -47,5 +48,17 @@ public class UserController {
         System.out.println("인증코드: " + code);
 
         return new ResponseEntity<>(code, HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    @ResponseBody
+    public ResponseEntity<Object> login(@RequestBody Map<String,String> param){
+
+        LoginDto loginDto = new LoginDto(param.get("email"),
+                param.get("password"));
+
+        userService.login(loginDto);
+
+        return new ResponseEntity<>("로그인에 성공하였습니다.", HttpStatus.OK);
     }
 }

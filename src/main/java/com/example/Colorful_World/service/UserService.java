@@ -1,6 +1,7 @@
 package com.example.Colorful_World.service;
 
 
+import com.example.Colorful_World.dto.LoginDto;
 import com.example.Colorful_World.dto.UserDto;
 import com.example.Colorful_World.exception.BaseException;
 import com.example.Colorful_World.exception.ErrorCode;
@@ -26,6 +27,11 @@ public class UserService {
 
         //dto를 entity로 만들어서 저장
         userRepository.save(userDto.toEntity());
+
+    }
+
+    @Transactional
+    public void login(LoginDto loginDto){
 
     }
 
