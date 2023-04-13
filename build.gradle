@@ -27,6 +27,8 @@ dependencies {
 	implementation 'org.projectlombok:lombok:1.18.26'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation 'javax.servlet:jstl'
 
