@@ -34,9 +34,4 @@ public class UserController {
         return ResponseEntity.ok("회원가입에 성공하였습니다.");
     }
 
-    @PostMapping("/login")
-    @ResponseBody
-    public void login(){
-
-    }
 }
