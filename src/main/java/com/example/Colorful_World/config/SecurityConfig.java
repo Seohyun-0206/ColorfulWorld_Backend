@@ -1,6 +1,8 @@
 package com.example.Colorful_World.config;
 
 
+import com.example.Colorful_World.token.JwtAuthenticationFilter;
+import com.example.Colorful_World.token.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -12,12 +14,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
 
+    private final JwtTokenProvider jwtTokenProvider;
     //비밀번호 인코딩
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -41,11 +45,14 @@ public class SecurityConfig {
                 .and()
 
                 .authorizeHttpRequests()
-                .requestMatchers( "/join", "/checkEmail").permitAll() //설정한 리소스의 접근을 인증 절차 없이 모두 허용한다.
+                .requestMatchers( "/join", "/checkEmail", "/login").permitAll() //설정한 리소스의 접근을 인증 절차 없이 모두 허용한다.
                 .anyRequest().authenticated() //그 외 나머지 리소스는 인증된 사용자만 접근할 수 있다.
                 .and()
 
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
 
         ;
 
