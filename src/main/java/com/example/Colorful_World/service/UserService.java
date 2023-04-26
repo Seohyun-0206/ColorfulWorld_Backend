@@ -11,9 +11,12 @@ import com.example.Colorful_World.repository.UserRepository;
 import com.example.Colorful_World.token.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +25,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final RedisTemplate redisTemplate;
 
     @Transactional
     public void register(UserDto userDto){
@@ -52,6 +56,8 @@ public class UserService {
         TokenDto tokenDto = jwtTokenProvider.createAllToken(loginDto.getEmail());
 
         //redis에 RTK 저장
+        redisTemplate.opsForValue()
+                        .set("RTK: " + loginDto.getEmail(), tokenDto.getRefreshToken(), tokenDto.getRefreshTokenExpiration(), TimeUnit.MILLISECONDS);
 
 
         setHeader(response, tokenDto);
