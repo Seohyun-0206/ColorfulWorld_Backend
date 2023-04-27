@@ -87,6 +87,6 @@ public class UserService {
 
         //ATK를 blacklist로 저장
         Long expiration = jwtTokenProvider.getExpiration(atk);
-        redisTemplate.opsForValue().set("logout" + email, atk, expiration, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(atk,"logout: " + email, expiration, TimeUnit.MILLISECONDS);
     }
 }

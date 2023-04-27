@@ -35,7 +35,7 @@ public class JwtTokenProvider {
 
     private Key key;
 
-    private CustomUserDetailService customUserDetailService;
+    private final CustomUserDetailService customUserDetailService;
 
 
     //secretKey encoding
@@ -82,7 +82,8 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token){
-        CustomUserDetails customUserDetails = customUserDetailService.loadUserByUsername(this.getEmail(token));
+        String email = getEmail(token);
+        CustomUserDetails customUserDetails = customUserDetailService.loadUserByUsername(email);
 
         return new UsernamePasswordAuthenticationToken(customUserDetails, "", customUserDetails.getAuthorities());
     }
