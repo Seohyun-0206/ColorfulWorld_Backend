@@ -67,4 +67,26 @@ public class UserService {
         response.addHeader("access_token", tokenDto.getAccessToken());
         response.addHeader("refresh_token", tokenDto.getRefreshToken());
     }
+
+    @Transactional
+    public void logout(String atk){
+
+        //ATK 유효 검증
+        if(!jwtTokenProvider.validateToken(atk)){
+            throw new BaseException(ErrorCode.EXPIRATION_TOKEN);
+        }
+
+        //ATK에서 email 가져오기
+        String email = jwtTokenProvider.getEmail(atk);
+
+        //Redis에 RTK 있는지 확인
+        if(redisTemplate.opsForValue().get("RTK: " + email) != null){
+            //RTK 삭제
+            redisTemplate.delete("RTK: " + email);
+        }
+
+        //ATK를 blacklist로 저장
+        Long expiration = jwtTokenProvider.getExpiration(atk);
+        redisTemplate.opsForValue().set("logout" + email, atk, expiration, TimeUnit.MILLISECONDS);
+    }
 }

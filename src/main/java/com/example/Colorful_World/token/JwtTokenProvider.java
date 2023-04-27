@@ -107,4 +107,13 @@ public class JwtTokenProvider {
         return request.getHeader(type);
     }
 
+    //남은 유효시간 확인
+    public Long getExpiration(String token) {
+        // token에 남은 유효시간
+        Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration();
+        // 현재 시간
+        Long now = new Date().getTime();
+        return (expiration.getTime() - now);
+    }
+
 }
