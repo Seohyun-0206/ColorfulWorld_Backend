@@ -1,9 +1,13 @@
 package com.example.Colorful_World.config;
 
 
+import com.example.Colorful_World.exception.BaseException;
+import com.example.Colorful_World.exception.BaseExceptionHandler;
+import com.example.Colorful_World.exception.ExceptionHandlerFilter;
 import com.example.Colorful_World.token.JwtAuthenticationFilter;
 import com.example.Colorful_World.token.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,6 +59,7 @@ public class SecurityConfig {
                 .and()
 
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new ExceptionHandlerFilter(), JwtAuthenticationFilter.class)
 
         ;
 
