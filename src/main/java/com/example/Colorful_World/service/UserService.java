@@ -64,7 +64,7 @@ public class UserService {
     }
 
     private void setHeader(HttpServletResponse response, TokenDto tokenDto){
-        response.setHeader("access_token", tokenDto.getAccessToken());
-        response.setHeader("refresh_token", tokenDto.getRefreshToken());
+        response.addHeader("access_token", tokenDto.getAccessToken());
+        response.addHeader("refresh_token", tokenDto.getRefreshToken());
     }
 }
