@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 /*logout 여부 확인 후 로그아웃 안했을 경우 정보 저장*/
                 String isLogout = (String)redisTemplate.opsForValue().get(accessToken);
-                if(!ObjectUtils.isEmpty(isLogout)){
+                if(ObjectUtils.isEmpty(isLogout)){
                     Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
