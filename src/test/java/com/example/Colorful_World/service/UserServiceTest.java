@@ -8,7 +8,6 @@ import com.example.Colorful_World.exception.ErrorCode;
 import com.example.Colorful_World.repository.UserRepository;
 import com.example.Colorful_World.token.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.catalina.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -102,6 +101,22 @@ class UserServiceTest {
     @Test
     @DisplayName("로그인시 없는 이메일인 경우")
     void login_error1(){
+        //given
+        String email = "logintest@naver.com";
+        String rawPassword = "logintest";
+        UserDto userDto = new UserDto(email, passwordEncoder.encode(rawPassword), 1);
+        userService.register(userDto);
 
+        //when
+        String email2 = "logintesttt@naver.com";  //없는 이메일
+        String rawPassword2 = "logintest";
+        LoginDto loginDto = new LoginDto(email2, rawPassword2);
+
+        //then
+        try{
+            userService.login(loginDto, response);
+        }catch (BaseException e){
+            Assertions.assertEquals(e.getErrorCode(), ErrorCode.NO_USER);
+        }
     }
 }
