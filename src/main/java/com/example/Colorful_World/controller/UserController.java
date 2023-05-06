@@ -64,7 +64,7 @@ public class UserController {
         return new ResponseEntity<>("로그인에 성공하였습니다.", HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping("/out")
     @ResponseBody
     public ResponseEntity<Object> logout(@RequestHeader("access_token") String atk){
 
