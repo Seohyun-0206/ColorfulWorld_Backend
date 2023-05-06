@@ -20,7 +20,8 @@ public enum ErrorCode {
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "AUTH-001", "토큰이 유효하지 않습니다."),
 
     /*500:INTERNAL SERVER ERROR*/
-    MAIL_NOT_SENT(HttpStatus.INTERNAL_SERVER_ERROR, "MAIL-001", "메일이 정상적으로 발송되지 않았습니다.")
+    MAIL_NOT_SENT(HttpStatus.INTERNAL_SERVER_ERROR, "MAIL-001", "메일이 정상적으로 발송되지 않았습니다."),
+    IMAGE_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "IMG-001", "이미지 저장에 실패했습니다.")
     ;
 
 

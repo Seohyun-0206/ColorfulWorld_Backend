@@ -1,6 +1,8 @@
 package com.example.Colorful_World.service;
 
 import com.example.Colorful_World.entity.ImageEntity;
+import com.example.Colorful_World.exception.BaseException;
+import com.example.Colorful_World.exception.ErrorCode;
 import com.example.Colorful_World.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class ImageService {
             imageRepository.save(imageEntity);
 
         }catch(Exception e){
-
+            throw new BaseException(ErrorCode.IMAGE_SAVE_FAILED);
         }
 
 
