@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.sql.Blob;
+
 @Getter
 @Entity
 @NoArgsConstructor
@@ -15,10 +17,10 @@ public class ImageEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private byte[] image;
+    private Blob image;
 
     @Builder
-    public ImageEntity(byte[] image){
+    public ImageEntity(Blob image){
         this.image = image;
     }
 }
