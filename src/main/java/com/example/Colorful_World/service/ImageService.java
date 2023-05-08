@@ -46,7 +46,11 @@ public class ImageService {
 
         String temporaryUrl = "src/main/resources/file.png";
         try{
+            //임시 파일 경로에 file 생성
             OutputStream outputStream = new FileOutputStream(temporaryUrl);
+
+            //write() : byte 배열을 파일에 쓰기
+            //image.getBytes(1, (int) blob.length()) : blob 데이터를 byte로 가져오기(첫번째 바이트부터 전체길이까지의 바이트 배열)
             outputStream.write(imageEntity.getImage().getBytes(1, (int) imageEntity.getImage().length()));
         }catch(Exception e){
 
