@@ -41,7 +41,7 @@ public class UserController {
 
     @GetMapping("/checkEmail")
     @ResponseBody
-    public ResponseEntity<Object> checkEmail(@RequestParam String email){
+    public ResponseEntity<Object> checkEmail(@RequestParam("email") String email){
 
         //String email = param.get("email");
         System.out.println(email);

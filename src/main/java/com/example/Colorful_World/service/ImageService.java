@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.Blob;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +36,20 @@ public class ImageService {
             throw new BaseException(ErrorCode.IMAGE_SAVE_FAILED);
         }
 
+    }
 
+    public String loadImage(int id){
+
+        ImageEntity imageEntity = imageRepository.findById(id);
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("image", imageEntity.getImage());
+        System.out.println(imageEntity.getImage());
+
+        byte[] bytes = (byte[]) map.get("base64");
+        String toString = new String(bytes);
+        System.out.println(toString);
+
+        return toString;
     }
 }
