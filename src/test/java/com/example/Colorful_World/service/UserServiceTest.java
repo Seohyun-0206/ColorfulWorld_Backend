@@ -119,4 +119,26 @@ class UserServiceTest {
             Assertions.assertEquals(e.getErrorCode(), ErrorCode.NO_USER);
         }
     }
+
+    @Test
+    @DisplayName("올바르지 않은 암호인 경우")
+    void login_error2(){
+        //given
+        String email = "logintest@naver.com";
+        String rawPassword = "logintest";
+        UserDto userDto = new UserDto(email, passwordEncoder.encode(rawPassword), 1);
+        userService.register(userDto);
+
+        //when
+        String email2 = "logintest@naver.com";  //없는 이메일
+        String rawPassword2 = "logintesttt";
+        LoginDto loginDto = new LoginDto(email2, rawPassword2);
+
+        //then
+        try{
+            userService.login(loginDto, response);
+        }catch (BaseException e){
+            Assertions.assertEquals(e.getErrorCode(), ErrorCode.PASSWORD_MISMATCH);
+        }
+    }
 }
