@@ -141,4 +141,27 @@ class UserServiceTest {
             Assertions.assertEquals(e.getErrorCode(), ErrorCode.PASSWORD_MISMATCH);
         }
     }
+
+    @Test
+    @DisplayName("로그아웃")
+    void logout(){
+        //given
+        String email = "logouttest@naver.com";
+        String rawPassword = "logouttest";
+        UserDto userDto = new UserDto(email, passwordEncoder.encode(rawPassword), 1);
+        userService.register(userDto);
+
+        LoginDto loginDto = new LoginDto(email, rawPassword);
+        userService.login(loginDto, response);
+        ValueOperations<String, String> values = redisTemplate.opsForValue();
+        String access_token = values.get("RTK: "+email);
+
+        //when
+        userService.logout(access_token);
+        values = redisTemplate.opsForValue();
+        access_token = values.get("RTK: "+email);
+
+        //then
+        assertThat(access_token).isEqualTo(null);
+    }
 }
