@@ -2,6 +2,7 @@ package com.example.Colorful_World.controller;
 
 import com.example.Colorful_World.service.ImageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,5 +31,19 @@ public class ImageController {
         model.addAttribute("image", imageService.loadImage(id));
 
         return "image";
+    }
+
+    @PostMapping("/saveImage")
+    @ResponseBody
+    public ResponseEntity<String> saveImage(@RequestPart("image") MultipartFile img){
+
+        return ResponseEntity.ok("이미지를 서버에 저장하였습니다.");
+    }
+
+    @GetMapping("/getImage")
+    @ResponseBody
+    public ResponseEntity<Object> getImage(){
+
+        return new ResponseEntity("", HttpStatus.OK);
     }
 }

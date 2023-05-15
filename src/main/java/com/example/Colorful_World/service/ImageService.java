@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.sql.Blob;
@@ -58,5 +59,23 @@ public class ImageService {
 
         System.out.println(temporaryUrl);
         return temporaryUrl;
+    }
+
+    public void temporarySave(MultipartFile img){
+
+        try {
+
+            String filePath = "src/main/resources/files";
+
+            String fileName = "";
+
+            File saveFile = new File(filePath, fileName);
+
+            img.transferTo(saveFile);
+
+        }catch(Exception e){
+            throw new BaseException(ErrorCode.IMAGE_SAVE_FAILED);
+        }
+
     }
 }
