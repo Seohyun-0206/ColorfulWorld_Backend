@@ -57,6 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             String newAcessToken = jwtTokenProvider.createToken(email, "access");
 
                             response.setHeader("access_token", newAcessToken);
+                            System.out.println("atk 재발급");
 
                             //정보 저장
                             Authentication authentication = jwtTokenProvider.getAuthentication(newAcessToken);

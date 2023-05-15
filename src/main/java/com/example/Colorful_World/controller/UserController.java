@@ -41,7 +41,7 @@ public class UserController {
 
     @GetMapping("/checkEmail")
     @ResponseBody
-    public ResponseEntity<Object> checkEmail(@RequestParam String email){
+    public ResponseEntity<Object> checkEmail(@RequestParam("email") String email){
 
         //String email = param.get("email");
         System.out.println(email);
@@ -64,7 +64,7 @@ public class UserController {
         return new ResponseEntity<>("로그인에 성공하였습니다.", HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping("/out")
     @ResponseBody
     public ResponseEntity<Object> logout(@RequestHeader("access_token") String atk){
 

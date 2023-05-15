@@ -71,11 +71,6 @@ public class UserService {
     @Transactional
     public void logout(String atk){
 
-        //ATK 유효 검증
-        if(!jwtTokenProvider.validateToken(atk)){
-            throw new BaseException(ErrorCode.EXPIRATION_TOKEN);
-        }
-
         //ATK에서 email 가져오기
         String email = jwtTokenProvider.getEmail(atk);
 
