@@ -6,6 +6,8 @@ import com.example.Colorful_World.exception.ErrorCode;
 import com.example.Colorful_World.repository.ImageRepository;
 import com.example.Colorful_World.token.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +15,8 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -65,7 +69,7 @@ public class ImageService {
         return temporaryUrl;
     }
 
-    public void temporarySave(MultipartFile img, String atk){
+    public String temporarySave(MultipartFile img, String atk){
 
         String email = jwtTokenProvider.getEmail(atk);
 
@@ -73,25 +77,33 @@ public class ImageService {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
         String expired = formatter.format(now);
 
+        String filePath = System.getProperty("user.dir") + "/src/main/resources/files";
+
+        String fileName = email + "_" + expired + ".png";
+
         try {
-
-            String filePath = System.getProperty("user.dir") + "/src/main/resources/files";
-
-            String fileName = email + "_" + expired + ".png";
-
-            System.out.println(fileName);
-
             File saveFile = new File(filePath, fileName);
 
-            System.out.println(3);
-
             img.transferTo(saveFile);
+        }catch(Exception e){
+            throw new BaseException(ErrorCode.IMAGE_SAVE_FAILED);
+        }
 
-            System.out.println(4);
+        return fileName;
+    }
+
+    public Resource getImage(String fileName){
+
+        String filePath = System.getProperty("user.dir") + "/src/main/resources/files";
+
+        try {
+            Path imagePath = Paths.get(filePath, fileName);
+            Resource imageResource = new UrlResource(imagePath.toUri());
+
+            return imageResource;
 
         }catch(Exception e){
-            System.out.println("Exception: " + e);
-            throw new BaseException(ErrorCode.IMAGE_SAVE_FAILED);
+            throw new BaseException(ErrorCode.IMAGE_LOAD_FAILED);
         }
     }
 }

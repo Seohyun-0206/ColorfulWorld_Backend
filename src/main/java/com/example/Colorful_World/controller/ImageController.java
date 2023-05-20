@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.io.Resource;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,18 +36,20 @@ public class ImageController {
 
     @PostMapping("/saveImage")
     @ResponseBody
-    public ResponseEntity<String> saveImage(@RequestPart("image") MultipartFile img,
+    public ResponseEntity<Object> saveImage(@RequestPart("image") MultipartFile img,
                                             @RequestHeader("access_token") String atk){
 
-        imageService.temporarySave(img, atk);
+        String fileName = imageService.temporarySave(img, atk);
 
-        return ResponseEntity.ok("이미지를 서버에 저장하였습니다.");
+        return new ResponseEntity<>(fileName, HttpStatus.OK);
     }
 
     @GetMapping("/getImage")
     @ResponseBody
-    public ResponseEntity<Object> getImage(){
+    public ResponseEntity<Object> getImage(@RequestParam("name") String fileName){
 
-        return new ResponseEntity("", HttpStatus.OK);
+        Resource img = imageService.getImage(fileName);
+
+        return new ResponseEntity(img, HttpStatus.OK);
     }
 }
