@@ -4,6 +4,7 @@ import com.example.Colorful_World.entity.ImageEntity;
 import com.example.Colorful_World.exception.BaseException;
 import com.example.Colorful_World.exception.ErrorCode;
 import com.example.Colorful_World.repository.ImageRepository;
+import com.example.Colorful_World.token.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.sql.Blob;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +24,7 @@ import java.util.Map;
 public class ImageService {
 
     private final ImageRepository imageRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public void saveImage(MultipartFile img){
 
@@ -61,21 +65,33 @@ public class ImageService {
         return temporaryUrl;
     }
 
-    public void temporarySave(MultipartFile img){
+    public void temporarySave(MultipartFile img, String atk){
+
+        String email = jwtTokenProvider.getEmail(atk);
+
+        Date now = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+        String expired = formatter.format(now);
 
         try {
 
-            String filePath = "src/main/resources/files";
+            String filePath = System.getProperty("user.dir") + "/src/main/resources/files";
 
-            String fileName = "";
+            String fileName = email + "_" + expired + ".png";
+
+            System.out.println(fileName);
 
             File saveFile = new File(filePath, fileName);
 
+            System.out.println(3);
+
             img.transferTo(saveFile);
 
+            System.out.println(4);
+
         }catch(Exception e){
+            System.out.println("Exception: " + e);
             throw new BaseException(ErrorCode.IMAGE_SAVE_FAILED);
         }
-
     }
 }
