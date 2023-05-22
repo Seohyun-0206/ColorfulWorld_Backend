@@ -20,12 +20,12 @@ import java.nio.file.Paths;
 import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class ImageService {
+
+    private Long time = 30 * 60 * 1000L;
 
     private final ImageRepository imageRepository;
     private final JwtTokenProvider jwtTokenProvider;
@@ -75,7 +75,7 @@ public class ImageService {
 
         Date now = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
-        String expired = formatter.format(now);
+        String expired = formatter.format(new Date(now.getTime() + time));
 
         String filePath = System.getProperty("user.dir") + "/src/main/resources/files";
 
