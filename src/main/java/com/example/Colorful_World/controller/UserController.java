@@ -43,11 +43,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<Object> checkEmail(@RequestParam("email") String email){
 
-        //String email = param.get("email");
-        System.out.println(email);
-
         String code = mailService.sendMail(email);
-        System.out.println("인증코드: " + code);
 
         return new ResponseEntity<>(code, HttpStatus.OK);
     }
