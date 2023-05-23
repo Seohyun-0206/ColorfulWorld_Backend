@@ -25,7 +25,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class ImageService {
 
-    private Long time = 30 * 60 * 1000L;
+    private Long time = 10 * 60 * 1000L;
 
     private final ImageRepository imageRepository;
     private final JwtTokenProvider jwtTokenProvider;
