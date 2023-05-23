@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -69,9 +70,7 @@ public class ImageService {
 //        return temporaryUrl;
 //    }
 
-    public String temporarySave(MultipartFile img, String atk){
-
-        String email = jwtTokenProvider.getEmail(atk);
+    public String temporarySave(MultipartFile img){
 
         Date now = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
@@ -79,7 +78,9 @@ public class ImageService {
 
         String filePath = System.getProperty("user.dir") + "/src/main/resources/files";
 
-        String fileName = email + "_" + expired + ".png";
+        UUID uuid = UUID.randomUUID(); //file 이름에 붙일 랜덤 이름 생성
+
+        String fileName = uuid + "_" + expired + ".png";
 
         try {
             File saveFile = new File(filePath, fileName);

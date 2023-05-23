@@ -36,10 +36,9 @@ public class ImageController {
 
     @PostMapping("/saveImage")
     @ResponseBody
-    public ResponseEntity<Object> saveImage(@RequestPart("image") MultipartFile img,
-                                            @RequestHeader("access_token") String atk){
+    public ResponseEntity<Object> saveImage(@RequestPart("image") MultipartFile img){
 
-        String fileName = imageService.temporarySave(img, atk);
+        String fileName = imageService.temporarySave(img);
 
         return new ResponseEntity<>(fileName, HttpStatus.OK);
     }
