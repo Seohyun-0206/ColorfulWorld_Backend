@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -49,29 +50,27 @@ public class ImageService {
 
     }
 
-//    public String loadImage(int id){
-//
-//        ImageEntity imageEntity = imageRepository.findById(id);
-//
-//        String temporaryUrl = "src/main/resources/file.png";
-//        try{
-//            //임시 파일 경로에 file 생성
-//            OutputStream outputStream = new FileOutputStream(temporaryUrl);
-//
-//            //write() : byte 배열을 파일에 쓰기
-//            //image.getBytes(1, (int) blob.length()) : blob 데이터를 byte로 가져오기(첫번째 바이트부터 전체길이까지의 바이트 배열)
-//            outputStream.write(imageEntity.getImage().getBytes(1, (int) imageEntity.getImage().length()));
-//        }catch(Exception e){
-//
-//        }
-//
-//        System.out.println(temporaryUrl);
-//        return temporaryUrl;
-//    }
+    public String loadImage(int id){
 
-    public String temporarySave(MultipartFile img, String atk){
+        ImageEntity imageEntity = imageRepository.findById(id);
 
-        String email = jwtTokenProvider.getEmail(atk);
+        String temporaryUrl = "src/main/resources/file.png";
+        try{
+            //임시 파일 경로에 file 생성
+            OutputStream outputStream = new FileOutputStream(temporaryUrl);
+
+            //write() : byte 배열을 파일에 쓰기
+            //image.getBytes(1, (int) blob.length()) : blob 데이터를 byte로 가져오기(첫번째 바이트부터 전체길이까지의 바이트 배열)
+            outputStream.write(imageEntity.getImage().getBytes(1, (int) imageEntity.getImage().length()));
+        }catch(Exception e){
+
+        }
+
+        System.out.println(temporaryUrl);
+        return temporaryUrl;
+    }
+
+    public String temporarySave(MultipartFile img){
 
         Date now = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
@@ -79,7 +78,9 @@ public class ImageService {
 
         String filePath = System.getProperty("user.dir") + "/src/main/resources/files";
 
-        String fileName = email + "_" + expired + ".png";
+        UUID uuid = UUID.randomUUID(); //file 이름에 붙일 랜덤 이름 생성
+
+        String fileName = uuid + "_" + expired + ".png";
 
         try {
             File saveFile = new File(filePath, fileName);

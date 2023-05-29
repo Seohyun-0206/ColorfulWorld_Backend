@@ -25,21 +25,20 @@ public class ImageController {
         return ResponseEntity.ok("이미지 저장에 성공하였습니다.");
     }
 
-//    //저장된 이미지 확인
-//    @GetMapping("/load")
-//    public String loadImage(@RequestParam("id") int id, Model model){
-//
-//        model.addAttribute("image", imageService.loadImage(id));
-//
-//        return "image";
-//    }
+    //저장된 이미지 확인
+    @GetMapping("/load")
+    public String loadImage(@RequestParam("id") int id, Model model){
+
+        model.addAttribute("image", imageService.loadImage(id));
+
+        return "image";
+    }
 
     @PostMapping("/saveImage")
     @ResponseBody
-    public ResponseEntity<Object> saveImage(@RequestPart("image") MultipartFile img,
-                                            @RequestHeader("access_token") String atk){
+    public ResponseEntity<Object> saveImage(@RequestPart("image") MultipartFile img){
 
-        String fileName = imageService.temporarySave(img, atk);
+        String fileName = imageService.temporarySave(img);
 
         return new ResponseEntity<>(fileName, HttpStatus.OK);
     }
