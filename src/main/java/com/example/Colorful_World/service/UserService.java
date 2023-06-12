@@ -25,7 +25,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-    private final RedisTemplate redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
 
     @Transactional
     public void register(UserDto userDto){
@@ -61,6 +61,7 @@ public class UserService {
 
 
         setHeader(response, tokenDto);
+        response.addHeader("intensity", Integer.toString(userEntity.getIntensity()));
     }
 
     private void setHeader(HttpServletResponse response, TokenDto tokenDto){
@@ -83,5 +84,23 @@ public class UserService {
         //ATK를 blacklist로 저장
         Long expiration = jwtTokenProvider.getExpiration(atk);
         redisTemplate.opsForValue().set(atk,"logout: " + email, expiration, TimeUnit.MILLISECONDS);
+    }
+
+    @Transactional
+    public void updateIntensity(String atk, int intensity, HttpServletResponse response){
+        //ATK에서 email 가져오기
+        String email = jwtTokenProvider.getEmail(atk);
+
+        //회원이 존재하는지 확인
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(
+                ()-> new BaseException(ErrorCode.NO_USER)
+        );
+
+        userEntity.updateIntensity(intensity);
+
+        response.addHeader("intensity", Integer.toString(intensity));
+
+        userRepository.save(userEntity);
+
     }
 }

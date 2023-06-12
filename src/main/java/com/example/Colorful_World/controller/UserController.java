@@ -24,7 +24,7 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final HttpServletResponse response;
 
-    @PostMapping("/join")
+    @PostMapping("/api/join")
     @ResponseBody
     public ResponseEntity<String> register(@RequestBody Map<String, String> param){
 
@@ -39,7 +39,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/checkEmail")
+    @GetMapping("/api/checkEmail")
     @ResponseBody
     public ResponseEntity<Object> checkEmail(@RequestParam("email") String email){
 
@@ -48,7 +48,7 @@ public class UserController {
         return new ResponseEntity<>(code, HttpStatus.OK);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/api/login")
     @ResponseBody
     public ResponseEntity<Object> login(@RequestBody Map<String,String> param){
 
@@ -60,12 +60,24 @@ public class UserController {
         return new ResponseEntity<>("로그인에 성공하였습니다.", HttpStatus.OK);
     }
 
-    @PostMapping("/out")
+    @PostMapping("/api/out")
     @ResponseBody
     public ResponseEntity<Object> logout(@RequestHeader("access_token") String atk){
 
         userService.logout(atk);
 
         return new ResponseEntity<>("로그아웃에 성공하였습니다.", HttpStatus.OK);
+    }
+
+    @PostMapping("/api/update")
+    @ResponseBody
+    public ResponseEntity<Object> updateIntensity(@RequestHeader("access_token") String atk,
+                                                  @RequestBody Map<String, String> param){
+
+        int intensity = Integer.parseInt(param.get("intensity"));
+
+        userService.updateIntensity(atk, intensity, response);
+
+        return new ResponseEntity<>("인데스 수정이 완료되었습니다.", HttpStatus.OK);
     }
 }

@@ -22,6 +22,10 @@ public class UserEntity {
 
     private int intensity;
 
+    public void updateIntensity(int intensity){
+        this.intensity = intensity;
+    }
+
     @Builder
     public UserEntity(String email, String password, int intensity){
         this.email = email;

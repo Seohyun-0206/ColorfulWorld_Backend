@@ -12,7 +12,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("*")
                 .allowedMethods("OPTIONS", "GET", "POST", "PUT", "DELETE")
-                .exposedHeaders("access_token", "refresh_token");
+                .exposedHeaders("access_token", "refresh_token", "intensity");
         ;
 
     }

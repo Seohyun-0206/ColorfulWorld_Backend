@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .and()
 
                 .authorizeHttpRequests()
-                .requestMatchers( "/join", "/checkEmail", "/login").permitAll() //설정한 리소스의 접근을 인증 절차 없이 모두 허용한다.
+                .requestMatchers( "/api/join", "/api/checkEmail", "/api/login", "/api/load", "/api/hello").permitAll() //설정한 리소스의 접근을 인증 절차 없이 모두 허용한다.
                 .anyRequest().authenticated() //그 외 나머지 리소스는 인증된 사용자만 접근할 수 있다.
                 .and()
 

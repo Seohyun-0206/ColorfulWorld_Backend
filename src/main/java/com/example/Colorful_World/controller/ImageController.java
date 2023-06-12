@@ -16,7 +16,7 @@ public class ImageController {
 
     private final ImageService imageService;
 
-    @PostMapping("/image")
+    @PostMapping("/api/image")
     @ResponseBody
     public ResponseEntity<String> imageSave(@RequestPart("image")MultipartFile img){
 
@@ -26,7 +26,7 @@ public class ImageController {
     }
 
     //저장된 이미지 확인
-    @GetMapping("/load")
+    @GetMapping("/api/load")
     public String loadImage(@RequestParam("id") int id, Model model){
 
         model.addAttribute("image", imageService.loadImage(id));
@@ -34,7 +34,7 @@ public class ImageController {
         return "image";
     }
 
-    @PostMapping("/saveImage")
+    @PostMapping("/api/saveImage")
     @ResponseBody
     public ResponseEntity<Object> saveImage(@RequestPart("image") MultipartFile img){
 
@@ -43,12 +43,12 @@ public class ImageController {
         return new ResponseEntity<>(fileName, HttpStatus.OK);
     }
 
-    @GetMapping("/getImage")
+    @GetMapping("/api/getImage")
     @ResponseBody
     public ResponseEntity<Object> getImage(@RequestParam("name") String fileName){
 
         Resource img = imageService.getImage(fileName);
 
-        return new ResponseEntity(img, HttpStatus.OK);
+        return new ResponseEntity<>(img, HttpStatus.OK);
     }
 }
